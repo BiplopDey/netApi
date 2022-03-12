@@ -32,14 +32,7 @@ namespace WebApplication2.Controllers
             .ToArray();
         }
 
-        /*
-        [HttpPost]
-        public string PostCookie(Cookie cookie)
-        {    
 
-            return "Post Created";
-        }
-        */
         [HttpPost]
         public string PostCookie(List<CookieOrderRequestDTO> order)
         {
