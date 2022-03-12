@@ -3,9 +3,11 @@
     public class Order
     {
         private List<OrderLine> orderLines;
+        private Client client;
 
-        public Order(List<OrderLine> orderLines)
+        public Order(Client client, List<OrderLine> orderLines)
         {
+            this.client = client;
             this.orderLines = orderLines;
         }
 
