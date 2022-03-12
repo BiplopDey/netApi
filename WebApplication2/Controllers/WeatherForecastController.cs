@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using WebApplication2.Domain;
 
 namespace WebApplication2.Controllers
 {
@@ -28,6 +29,22 @@ namespace WebApplication2.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        /*
+        [HttpPost]
+        public string PostCookie(Cookie cookie)
+        {    
+
+            return "Post Created";
+        }
+        */
+        [HttpPost]
+        public string PostCookie(List<Cookie> cookies)
+        {
+            int items = cookies.Count;
+
+            return "The size is "+ items;
         }
     }
 }
