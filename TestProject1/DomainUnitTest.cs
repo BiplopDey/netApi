@@ -1,5 +1,6 @@
 using WebApplication2.Domain;
 using Xunit;
+using System.Collections.Generic;
 
 namespace TestProject1
 {
@@ -8,16 +9,17 @@ namespace TestProject1
         [Fact]
         public void itCanCreateCookie()
         {
-            var cookie = new Cookie(1,"apple",2.3);
-           
-            Assert.Equal(cookie.id, 1);
-            Assert.Equal(cookie.name, "apple");
-            Assert.Equal(cookie.price, 2.3 );
-        }
-    }
+            var cookie = new Cookie(1, "apple", 2.3);
 
+            Assert.True(cookie.id == 1);
+            Assert.True(cookie.name == "apple");
+            Assert.True(cookie.price == 2.3);
+        } 
+    }
+    
     public class OderLineUnitTest
     {
+        [Fact]
         public void itCanGetTotalPrice()
         {
             var appleCookie = new Cookie(1, "apple", 2.3);
@@ -25,19 +27,28 @@ namespace TestProject1
 
             var sut = orderLine.totalPrice();
 
-            Assert.Equal(sut, 23.0);
+            Assert.True(sut == 23.0);
 
         }
     }
+    
     public class OderUnitTest
     {
-        public void Test1()
+        [Fact]
+        public void itCanGetTotalPrice()
         {
             var appleCookie = new Cookie(1, "apple", 2.3);
             var chocCookie = new Cookie(1, "chocolate", 3.7);
-
-            Assert.True(true);
+            var orderLines = new List<OrderLine>()
+                { 
+                    new OrderLine(appleCookie, 10),
+                    new OrderLine(chocCookie, 10)
+                };
+            var order = new Order(orderLines);
+            
+            Assert.True(order.totalPrice() == 60.0);
         }
     }
+    
 
 }
