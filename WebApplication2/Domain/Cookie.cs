@@ -2,7 +2,13 @@
 {
     public class Cookie
     {
-        public int Id { get; set; }
-        public int Price { get; set; }
+        public int id;
+        public double price; 
+
+        public Cookie(int id, double price)
+        {
+            this.id = id;
+            this.price = price;
+        }
     }
 }

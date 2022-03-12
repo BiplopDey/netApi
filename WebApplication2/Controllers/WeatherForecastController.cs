@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApplication2.Domain;
+using WebApplication2.DTO;
 
 namespace WebApplication2.Controllers
 {
@@ -40,9 +41,9 @@ namespace WebApplication2.Controllers
         }
         */
         [HttpPost]
-        public string PostCookie(List<Cookie> cookies)
+        public string PostCookie(List<CookieOrderRequestDTO> order)
         {
-            int items = cookies.Count;
+            int items = order.Count;
 
             return "The size is "+ items;
         }
