@@ -14,7 +14,7 @@ namespace TestProject1
             Assert.True(cookie.id == 1);
             Assert.True(cookie.name == "apple");
             Assert.True(cookie.price == 2.3);
-        } 
+        }
     }
     
     public class OderLineUnitTest
