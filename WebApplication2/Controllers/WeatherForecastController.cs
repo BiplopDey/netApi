@@ -1,6 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApplication2.Domain;
 using WebApplication2.DTO;
+using WebApplication2.Application;
+using WebApplication2.Domain.Repository;
+using WebApplication2.Infrastructure.Repository;
+using System.Collections.Generic;
 
 namespace WebApplication2.Controllers
 {
@@ -15,11 +19,13 @@ namespace WebApplication2.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
+        private OrderService orderService;
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
+            orderService = new OrderService(new InFileOrderRepository());
         }
-
+        /*
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
@@ -31,13 +37,26 @@ namespace WebApplication2.Controllers
             })
             .ToArray();
         }
-
+        */
+        [HttpGet(Name = "GetWeatherForecast")]
+        public IEnumerable<OrderResponseDTO> Get()
+        {
+            var orders = orderService.getAll();
+            
+            return Enumerable.Range(0, orders.Count-1).Select(index => new OrderResponseDTO
+            {
+                OderId = index,
+                ClientId = orders[index].getClientId(),
+                TotalPrice = orders[index].getTotalPrice()
+            })
+            .ToArray();
+        }
 
         [HttpPost]
         public string PostCookie(List<CookieOrderRequestDTO> order)
         {
             int items = order.Count;
-
+            orderService.createOrder(order);
             return "The size is "+ items;
         }
     }

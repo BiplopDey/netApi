@@ -21,7 +21,7 @@ namespace WebApplication2.Application
                 req => orderLines.Add(
                     new OrderLine(new Cookie(req.CookieId, "foo", 2.2), req.Quantity)));
 
-            orderRepository.Save(new Order(new Client(orderLinesRequest[0].ClientId, "bar"), orderLines));
+            orderRepository.Save(new Order(orderRepository.All().Count + 1, new Client(orderLinesRequest[0].ClientId, "bar"), orderLines));
             return 1;
         }
 
