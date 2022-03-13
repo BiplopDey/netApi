@@ -39,17 +39,17 @@ namespace WebApplication2.Controllers
         }
         */
         [HttpGet(Name = "GetWeatherForecast")]
+
         public IEnumerable<OrderResponseDTO> Get()
         {
             var orders = orderService.getAll();
             
-            return Enumerable.Range(0, orders.Count-1).Select(index => new OrderResponseDTO
+            return orders.Select(order => new OrderResponseDTO
             {
-                OderId = index,
-                ClientId = orders[index].getClientId(),
-                TotalPrice = orders[index].getTotalPrice()
-            })
-            .ToArray();
+                OderId = order.getId(),
+                ClientId = order.getClientId(),
+                TotalPrice = order.getTotalPrice()
+            });
         }
 
         [HttpPost]

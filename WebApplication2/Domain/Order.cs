@@ -16,6 +16,10 @@
             totalPrice = calculateTotalPrice();
         }
 
+        public int getId()
+        {
+            return id;
+        }
         public double calculateTotalPrice()
         {
             double total = 0;
