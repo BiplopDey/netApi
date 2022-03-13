@@ -1,6 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApplication2.Domain;
 using WebApplication2.DTO;
+using WebApplication2.Application;
+using WebApplication2.Domain.Repository;
+using WebApplication2.Infrastructure.Repository;
+using System.Collections.Generic;
 
 namespace WebApplication2.Controllers
 {
@@ -8,36 +12,33 @@ namespace WebApplication2.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
         private readonly ILogger<WeatherForecastController> _logger;
 
+        private OrderService orderService;
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
+            orderService = new OrderService(new InFileOrderRepository());
         }
-
+        
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public IEnumerable<OrderResponseDTO> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            var orders = orderService.getAll();
+            
+            return orders.Select(order => new OrderResponseDTO
             {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+                OderId = order.getId(),
+                ClientId = order.getClientId(),
+                TotalPrice = order.getTotalPrice()
+            });
         }
-
 
         [HttpPost]
-        public string PostCookie(List<CookieOrderRequestDTO> order)
+        public string PostCookie(CookieOrderRequestDTO order)
         {
-            int items = order.Count;
-
+            int items = order.OrderLines.Count;
+            orderService.createOrder(order);
             return "The size is "+ items;
         }
     }

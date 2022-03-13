@@ -32,7 +32,7 @@ namespace TestProject1
                 };
 
             
-            return new Order(new Client(1+id, "Foo"), orderLines);
+            return new Order(1, new Client(1+id, "Foo"), orderLines);
         }
     }
     

@@ -2,18 +2,24 @@
 {
     public class Order
     {
+        private int id;
         private List<OrderLine> orderLines;
         private int clientId;
         private double totalPrice;
 
-        public Order(Client client, List<OrderLine> orderLines)
+        public Order(int id, Client client, List<OrderLine> orderLines)
         {
+            this.id = id;
             clientId = client.id;
             this.orderLines = orderLines;
 
             totalPrice = calculateTotalPrice();
         }
 
+        public int getId()
+        {
+            return id;
+        }
         public double calculateTotalPrice()
         {
             double total = 0;

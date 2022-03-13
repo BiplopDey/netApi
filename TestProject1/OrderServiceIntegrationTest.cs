@@ -45,28 +45,29 @@ namespace TestProject1
             InFileOrderRepository.clear();
         }
 
-        private List<CookieOrderRequestDTO> generateOrderRequest()
+        private CookieOrderRequestDTO generateOrderRequest()
         {
-            return new List<CookieOrderRequestDTO>()
+            return new CookieOrderRequestDTO()
             {
-                new CookieOrderRequestDTO
+                ClientId = 1,
+                OrderLines = new List<OrderLineDTO>()
                 {
-                    ClientId = 1,
-                    CookieId = 1,
-                    Quantity = 2
-                },
-                new CookieOrderRequestDTO
-                {
-                    ClientId = 1,
-                    CookieId = 3,
-                    Quantity = 3
-                },
-                 new CookieOrderRequestDTO
-                {
-                    ClientId = 1,
-                    CookieId = 3,
-                    Quantity = 3
-                }
+                    new OrderLineDTO
+                    {
+                        CookieId = 1,
+                        Quantity = 2
+                    },
+                    new OrderLineDTO
+                    {
+                        CookieId = 2,
+                        Quantity = 2
+                    },
+                    new OrderLineDTO
+                    {
+                        CookieId = 2,
+                        Quantity = 4
+                    }
+                }  
             };
         }
     }

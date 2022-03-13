@@ -45,7 +45,7 @@ namespace TestProject1
                     new OrderLine(chocCookie, 10)
                 };
             
-            var order = new Order(new Client(1,"Foo") , orderLines);
+            var order = new Order(1, new Client(1,"Foo") , orderLines);
             
             Assert.True(order.getTotalPrice() == 60.0);
         }
