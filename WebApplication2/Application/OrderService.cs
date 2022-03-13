@@ -24,5 +24,10 @@ namespace WebApplication2.Application
             orderRepository.Save(new Order(new Client(orderLinesRequest[0].ClientId, "bar"), orderLines));
             return 1;
         }
+
+        public List<Order> getAll()
+        {
+            return orderRepository.All();
+        }
     }
 }

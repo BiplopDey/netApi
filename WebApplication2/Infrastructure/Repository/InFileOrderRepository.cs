@@ -6,13 +6,12 @@ namespace WebApplication2.Infrastructure.Repository
 {
     public class InFileOrderRepository : IOrderRepository
     {
-        private static List<Order> orders = new List<Order>();
-                
-        public static void SaveAll(List<Order> orders)
+        public static List<Order> orders = new List<Order>();
+        
+        public static void clear()
         {
-            this.orders = orders;
+            orders = new List<Order>();
         }
-
         public List<Order> All()
         {
             return orders;

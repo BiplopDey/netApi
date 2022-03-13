@@ -29,7 +29,7 @@
             return totalPrice;
         }
 
-        public double getClientId()
+        public int getClientId()
         {
             return clientId;
         }

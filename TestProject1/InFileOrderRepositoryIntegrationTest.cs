@@ -10,12 +10,15 @@ namespace TestProject1
         [Fact]
         public void itCanSaveOrders()
         {
-            InFileOrderRepository.SaveAll(new List<Order>() 
-            {
-                generateOrder(1), generateOrder(2)
-            });
+            InFileOrderRepository.clear();
+            var repository = new InFileOrderRepository();
 
-            Assert.True(new InFileOrderRepository().All().Count == 2);
+            repository.Save(generateOrder(1));
+            repository.Save(generateOrder(2));
+
+            Assert.True(repository.All().Count == 2);
+            Assert.True(repository.All()[0].getClientId() == 2);
+            InFileOrderRepository.clear();
         }
 
         private Order generateOrder(int id)

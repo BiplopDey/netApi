@@ -5,6 +5,7 @@ using WebApplication2.Domain.Repository;
 using WebApplication2.Infrastructure.Repository;
 using WebApplication2.DTO;
 using System.Collections.Generic;
+using System;
 
 namespace TestProject1
 {
@@ -13,13 +14,35 @@ namespace TestProject1
         [Fact]
         public void itCanCreateOrder()
         {
-            var inFileOrderRepository = new InFileOrderRepository()
+            InFileOrderRepository.clear();
+
+            var inFileOrderRepository = new InFileOrderRepository();
             var orderService = new OrderService(inFileOrderRepository);
 
+            int i = orderService.createOrder(generateOrderRequest());
             orderService.createOrder(generateOrderRequest());
 
-            Assert.True(inFileOrderRepository.All().Count == 3);
+            Assert.True(i == 1);
+            Assert.True(inFileOrderRepository.All().Count == 2);
             Assert.True(inFileOrderRepository.All()[0].getClientId() == 1);
+
+            InFileOrderRepository.clear();
+        }
+
+        [Fact]
+        public void itCanGetAllOrders()
+        {
+            InFileOrderRepository.clear();
+            var inFileOrderRepository = new InFileOrderRepository();
+            var orderService = new OrderService(inFileOrderRepository);
+            int i = orderService.createOrder(generateOrderRequest());
+            orderService.createOrder(generateOrderRequest());
+
+            Assert.True(i == 1);
+            Assert.True(orderService.getAll().Count == 2);
+            Assert.True(orderService.getAll()[0].getClientId() == 1);
+
+            InFileOrderRepository.clear();
         }
 
         private List<CookieOrderRequestDTO> generateOrderRequest()
