@@ -12,11 +12,6 @@ namespace WebApplication2.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
         private readonly ILogger<WeatherForecastController> _logger;
 
         private OrderService orderService;
@@ -25,21 +20,8 @@ namespace WebApplication2.Controllers
             _logger = logger;
             orderService = new OrderService(new InFileOrderRepository());
         }
-        /*
+        
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
-        {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
-        }
-        */
-        [HttpGet(Name = "GetWeatherForecast")]
-
         public IEnumerable<OrderResponseDTO> Get()
         {
             var orders = orderService.getAll();
@@ -53,9 +35,9 @@ namespace WebApplication2.Controllers
         }
 
         [HttpPost]
-        public string PostCookie(List<CookieOrderRequestDTO> order)
+        public string PostCookie(CookieOrderRequestDTO order)
         {
-            int items = order.Count;
+            int items = order.OrderLines.Count;
             orderService.createOrder(order);
             return "The size is "+ items;
         }
