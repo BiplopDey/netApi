@@ -18,7 +18,7 @@ namespace WebApplication2.Controllers
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
-            orderService = new OrderService(new InFileOrderRepository());
+            orderService = new OrderService(new InFileOrderRepository(), new InFileCookieRepository());
         }
         
         [HttpGet(Name = "GetWeatherForecast")]
@@ -37,9 +37,9 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public string PostCookie(CookieOrderRequestDTO order)
         {
-            int items = order.OrderLines.Count;
-            orderService.createOrder(order);
-            return "The size is "+ items;
+            int orderId = orderService.createOrder(order);
+            if (orderId < 0) return "Cookie Not Fount";
+            return "Your order id: "+ orderId;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace TestProject1
             InFileOrderRepository.clear();
 
             var inFileOrderRepository = new InFileOrderRepository();
-            var orderService = new OrderService(inFileOrderRepository);
+            var orderService = new OrderService(inFileOrderRepository, new InFileCookieRepository());
 
             int i = orderService.createOrder(generateOrderRequest());
             orderService.createOrder(generateOrderRequest());
@@ -30,11 +30,27 @@ namespace TestProject1
         }
 
         [Fact]
+        public void itCantCreateOrderWithNoWrongId()
+        {
+            InFileOrderRepository.clear();
+
+            var inFileOrderRepository = new InFileOrderRepository();
+            var orderService = new OrderService(inFileOrderRepository, new InFileCookieRepository());
+
+            int orderId = orderService.createOrder(generateInvalidOrderRequest());
+
+            Assert.True(orderId == -1);
+            Assert.True(inFileOrderRepository.All().Count == 0);
+
+            InFileOrderRepository.clear();
+        }
+
+        [Fact]
         public void itCanGetAllOrders()
         {
             InFileOrderRepository.clear();
             var inFileOrderRepository = new InFileOrderRepository();
-            var orderService = new OrderService(inFileOrderRepository);
+            var orderService = new OrderService(inFileOrderRepository, new InFileCookieRepository());
             int i = orderService.createOrder(generateOrderRequest());
             orderService.createOrder(generateOrderRequest());
 
@@ -44,6 +60,7 @@ namespace TestProject1
 
             InFileOrderRepository.clear();
         }
+
 
         private CookieOrderRequestDTO generateOrderRequest()
         {
@@ -64,10 +81,35 @@ namespace TestProject1
                     },
                     new OrderLineDTO
                     {
-                        CookieId = 2,
+                        CookieId = 3,
                         Quantity = 4
                     }
                 }  
+            };
+        }
+        private CookieOrderRequestDTO generateInvalidOrderRequest()
+        {
+            return new CookieOrderRequestDTO()
+            {
+                ClientId = 1,
+                OrderLines = new List<OrderLineDTO>()
+                {
+                    new OrderLineDTO
+                    {
+                        CookieId = 10,
+                        Quantity = 2
+                    },
+                    new OrderLineDTO
+                    {
+                        CookieId = 2,
+                        Quantity = 2
+                    },
+                    new OrderLineDTO
+                    {
+                        CookieId = 3,
+                        Quantity = 4
+                    }
+                }
             };
         }
     }

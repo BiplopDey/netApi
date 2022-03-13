@@ -4,7 +4,7 @@
     {
         void Save(Cookie cookie);
         bool Exists(int id);
-
+        Cookie FindById(int id);
         List<Cookie> All();
     }
 }

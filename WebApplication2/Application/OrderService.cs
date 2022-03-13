@@ -7,22 +7,40 @@ namespace WebApplication2.Application
     public class OrderService
     {
         private IOrderRepository orderRepository;
-
-        public OrderService(IOrderRepository orderRepository)
+        private ICookieRepository cookieRepository;
+        public OrderService(IOrderRepository orderRepository, ICookieRepository cookieRepository)
         {
             this.orderRepository = orderRepository;
+            this.cookieRepository = cookieRepository;
         }
 
         public int createOrder(CookieOrderRequestDTO orderLinesRequest)
         {
-            List<OrderLine> orderLines = new List<OrderLine>();
+            if (!ensureAllCookiesExits(orderLinesRequest.OrderLines))
+            {
+                return -1;
+            } 
 
+            List<OrderLine> orderLines = new List<OrderLine>();
             orderLinesRequest.OrderLines.ForEach(
                 req => orderLines.Add(
-                    new OrderLine(new Cookie(req.CookieId, "foo", 2.2), req.Quantity)));
+                    new OrderLine(cookieRepository.FindById(req.CookieId), req.Quantity)));
 
-            orderRepository.Save(new Order(orderRepository.All().Count + 1, new Client(orderLinesRequest.ClientId, "bar"), orderLines));
-            return 1;
+            int orderId = orderRepository.All().Count + 1;
+            orderRepository.Save(new Order(orderId, new Client(orderLinesRequest.ClientId, "bar"), orderLines));
+            return orderId;
+        }
+
+        private bool ensureAllCookiesExits(List<OrderLineDTO> orderLines)
+        {
+            foreach(OrderLineDTO orderLine in orderLines)
+            {
+                if (!cookieRepository.Exists(orderLine.CookieId))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public List<Order> getAll()

@@ -33,5 +33,12 @@ namespace WebApplication2.Infrastructure.Repository
         {
             return cookies;
         }
+
+        public Cookie FindById(int id)
+        {
+            if (!Exists(id)) return null;
+
+            return cookies.Find(cookie => cookie.id == id);
+        }
     }
 }
