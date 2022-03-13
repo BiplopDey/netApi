@@ -2,18 +2,25 @@
 {
     public class OrderLine
     {
-        private Cookie cookie;
+        private int cookieId;
         private int quantity;
+        private double totalPrice;
 
         public OrderLine(Cookie cookie, int quantity)
         {
-            this.cookie = cookie;
+            cookieId = cookie.id;
             this.quantity = quantity;
+            totalPrice = calculateTotalPrice(cookie.price);
         }
 
-        public double totalPrice()
+        private double calculateTotalPrice(double price)
         {
-            return cookie.price * quantity;
+            return price * quantity;
+        }
+
+        public double getTotalPrice()
+        {
+            return totalPrice;
         }
     }
 }

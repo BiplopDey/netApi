@@ -25,7 +25,7 @@ namespace TestProject1
             var appleCookie = new Cookie(1, "apple", 2.3);
             var orderLine = new OrderLine(appleCookie, 10);
 
-            var sut = orderLine.totalPrice();
+            var sut = orderLine.getTotalPrice();
 
             Assert.True(sut == 23.0);
 
@@ -47,7 +47,7 @@ namespace TestProject1
             
             var order = new Order(new Client(1,"Foo") , orderLines);
             
-            Assert.True(order.totalPrice() == 60.0);
+            Assert.True(order.getTotalPrice() == 60.0);
         }
     }
     
