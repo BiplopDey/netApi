@@ -6,6 +6,7 @@ namespace WebApplication2.Application
 {
     public class OrderService
     {
+        private readonly double MAX_AMOUNT = 200;
         private IOrderRepository orderRepository;
         private ICookieRepository cookieRepository;
         public OrderService(IOrderRepository orderRepository, ICookieRepository cookieRepository)
@@ -16,18 +17,19 @@ namespace WebApplication2.Application
 
         public int createOrder(CookieOrderRequestDTO orderLinesRequest)
         {
-            if (!ensureAllCookiesExits(orderLinesRequest.OrderLines))
-            {
-                return -1;
-            } 
+            if (!ensureAllCookiesExits(orderLinesRequest.OrderLines)) return -1;
+            
 
             List<OrderLine> orderLines = new List<OrderLine>();
             orderLinesRequest.OrderLines.ForEach(
                 req => orderLines.Add(
                     new OrderLine(cookieRepository.FindById(req.CookieId), req.Quantity)));
-
             int orderId = orderRepository.All().Count + 1;
-            orderRepository.Save(new Order(orderId, new Client(orderLinesRequest.ClientId, "bar"), orderLines));
+            var order = new Order(orderId, new Client(orderLinesRequest.ClientId, "bar"), orderLines);
+            
+            if (orderRepository.getTotalPriceAllOrders() + order.getTotalPrice() > MAX_AMOUNT) return -1;
+            
+            orderRepository.Save(order);
             return orderId;
         }
 

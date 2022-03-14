@@ -21,6 +21,19 @@ namespace TestProject1
             InFileOrderRepository.clear();
         }
 
+        [Fact]
+        public void itCanComputeAllOrdersPrice()
+        {
+            InFileOrderRepository.clear();
+            var repository = new InFileOrderRepository();
+
+            repository.Save(generateOrder(1));
+            repository.Save(generateOrder(2));
+
+            Assert.True(repository.getTotalPriceAllOrders() == 120.0);
+            InFileOrderRepository.clear();
+        }
+
         private Order generateOrder(int id)
         {
             var appleCookie = new Cookie(1+id, "apple", 2.3);

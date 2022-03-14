@@ -6,5 +6,7 @@ namespace WebApplication2.Domain.Repository
         void Save(Order order);
 
         List<Order> All();
+
+        double getTotalPriceAllOrders();
     }
 }

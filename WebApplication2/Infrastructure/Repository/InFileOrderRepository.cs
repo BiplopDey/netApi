@@ -21,5 +21,16 @@ namespace WebApplication2.Infrastructure.Repository
         {
             orders.Add(order);
         }
+
+        public double getTotalPriceAllOrders()
+        {
+            double total = 0;
+            foreach (Order order in orders)
+            {
+                total += order.getTotalPrice();
+            }
+            return total;
+        }
+
     }
 }

@@ -30,7 +30,7 @@ namespace TestProject1
         }
 
         [Fact]
-        public void itCantCreateOrderWithNoWrongId()
+        public void itCantCreateOrderWithWrongId()
         {
             InFileOrderRepository.clear();
 
@@ -61,6 +61,20 @@ namespace TestProject1
             InFileOrderRepository.clear();
         }
 
+        [Fact]
+        public void itCantOrderIfTheTotalAumountSurpases200()
+        {
+            InFileOrderRepository.clear();
+            var inFileOrderRepository = new InFileOrderRepository();
+            var orderService = new OrderService(inFileOrderRepository, new InFileCookieRepository());
+            
+            orderService.createOrder(generateOrderRequest());
+            orderService.createOrder(generateOrderRequest());
+            orderService.createOrder(generateOrderRequest());
+
+            Assert.True(orderService.getAll().Count == 2);
+            InFileOrderRepository.clear();
+        }
 
         private CookieOrderRequestDTO generateOrderRequest()
         {
@@ -72,17 +86,17 @@ namespace TestProject1
                     new OrderLineDTO
                     {
                         CookieId = 1,
-                        Quantity = 2
+                        Quantity = 10
                     },
                     new OrderLineDTO
                     {
                         CookieId = 2,
-                        Quantity = 2
+                        Quantity = 10
                     },
                     new OrderLineDTO
                     {
                         CookieId = 3,
-                        Quantity = 4
+                        Quantity = 10
                     }
                 }  
             };
