@@ -23,10 +23,10 @@
 - Create endpoints for making CRUD of Cookies.
 
 ## How to run 
-- Just call the enpoint `/order`, with post and get methods.
+- Call the enpoint `/order`, with post and get methods.
 
 ## What I learned
-- Learn a litlte bit of C# wich is very similar to Java.
+- Learn a litle bit of C# wich is very similar to Java.
 - How the .Net works and the Visual Studio.
 
 # Comments
