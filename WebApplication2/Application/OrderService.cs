@@ -19,28 +19,35 @@ namespace WebApplication2.Application
         {
             if (!ensureAllCookiesExits(orderLinesRequest.OrderLines)) return -1;
             
-
             List<OrderLine> orderLines = new List<OrderLine>();
             orderLinesRequest.OrderLines.ForEach(
                 req => orderLines.Add(
                     new OrderLine(cookieRepository.FindById(req.CookieId), req.Quantity)));
-            int orderId = orderRepository.All().Count + 1;
+            int orderId = generateOrderId();
             var order = new Order(orderId, new Client(orderLinesRequest.ClientId, "bar"), orderLines);
-            
-            if (orderRepository.getTotalPriceAllOrders() + order.getTotalPrice() > MAX_AMOUNT) return -1;
+
+            if (!ensureTotalPriceIsUnderMasAmount(order.getTotalPrice())) return -1;
             
             orderRepository.Save(order);
             return orderId;
+        }
+
+        private bool ensureTotalPriceIsUnderMasAmount(double price)
+        {
+            return orderRepository.getTotalPriceAllOrders() + price <= MAX_AMOUNT;
+        }
+
+        private int generateOrderId()
+        {
+            return orderRepository.All().Count + 1;
         }
 
         private bool ensureAllCookiesExits(List<OrderLineDTO> orderLines)
         {
             foreach(OrderLineDTO orderLine in orderLines)
             {
-                if (!cookieRepository.Exists(orderLine.CookieId))
-                {
-                    return false;
-                }
+                if (!cookieRepository.Exists(orderLine.CookieId)) return false;
+                
             }
             return true;
         }

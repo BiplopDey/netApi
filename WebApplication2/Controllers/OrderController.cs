@@ -1,4 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 using WebApplication2.Domain;
 using WebApplication2.DTO;
 using WebApplication2.Application;
@@ -8,24 +10,21 @@ using System.Collections.Generic;
 
 namespace WebApplication2.Controllers
 {
+    [Route("order")]
     [ApiController]
-    [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class OrderController : ControllerBase
     {
-        private readonly ILogger<WeatherForecastController> _logger;
-
         private OrderService orderService;
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public OrderController()
         {
-            _logger = logger;
             orderService = new OrderService(new InFileOrderRepository(), new InFileCookieRepository());
-        }
-        
-        [HttpGet(Name = "GetWeatherForecast")]
+        } 
+
+        [HttpGet]
         public IEnumerable<OrderResponseDTO> Get()
         {
             var orders = orderService.getAll();
-            
+
             return orders.Select(order => new OrderResponseDTO
             {
                 OderId = order.getId(),
@@ -33,13 +32,13 @@ namespace WebApplication2.Controllers
                 TotalPrice = order.getTotalPrice()
             });
         }
-
+         
         [HttpPost]
-        public string PostCookie(CookieOrderRequestDTO order)
+        public string Post(CookieOrderRequestDTO order)
         {
             int orderId = orderService.createOrder(order);
-            if (orderId < 0) return "Cookie Not Fount";
-            return "Your order id: "+ orderId;
+            if (orderId < 0) return "Cookie Not Fount or surpases the monthly cap";
+            return "Your order id: " + orderId;
         }
     }
 }
