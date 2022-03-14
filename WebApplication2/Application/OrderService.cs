@@ -37,10 +37,8 @@ namespace WebApplication2.Application
         {
             foreach(OrderLineDTO orderLine in orderLines)
             {
-                if (!cookieRepository.Exists(orderLine.CookieId))
-                {
-                    return false;
-                }
+                if (!cookieRepository.Exists(orderLine.CookieId)) return false;
+                
             }
             return true;
         }
