@@ -12,6 +12,7 @@ namespace WebApplication2.Infrastructure.Repository
         {
             orders = new List<Order>();
         }
+
         public List<Order> All()
         {
             return orders;

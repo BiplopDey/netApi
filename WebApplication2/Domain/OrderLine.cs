@@ -13,6 +13,13 @@
             totalPrice = calculateTotalPrice(cookie.price);
         }
 
+        public OrderLine(int cookieId, int quantity, double totalPrice)
+        {
+            this.cookieId = cookieId;
+            this.quantity = quantity;
+            this.totalPrice = totalPrice;
+        }
+
         private double calculateTotalPrice(double price)
         {
             return price * quantity;
@@ -21,6 +28,15 @@
         public double getTotalPrice()
         {
             return totalPrice;
+        }
+
+        public int getQuantity()
+        {
+            return quantity;
+        }
+        public int getCookieId()
+        {
+            return cookieId;
         }
     }
 }

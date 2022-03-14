@@ -15,6 +15,15 @@
 
             totalPrice = calculateTotalPrice();
         }
+        
+        public Order(int id, int clientId, List<OrderLine> orderLines)
+        {
+            this.id = id;
+            this.clientId = clientId;
+            this.orderLines = orderLines;
+
+            totalPrice = calculateTotalPrice();
+        }
 
         public int getId()
         {
