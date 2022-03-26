@@ -1,41 +1,36 @@
-# Real Cookies api :cookie:
-- Used TDD to develop this service.
-- Used  hexagonal architecture with DDD.
-  - The DTO folder should be inside Application folder, and Controller inside Infrastructure.
+# C# Developer project
 
-- The benefit of implenting this is that we have test and its easy to mantain and scale.
-- Didn't implement repositories for csv files, just in memory repos, but once you know how to connect database its easy because of the repository pattern.
+Here at Lodgify we have an issue with cookie management, people are always asking for cookies and we need a way to manage the orders because we are overwhelmed with the number of cookie orders that we receive. We think a service to handle the orders will be the right solution for our problem.
 
-## Domain
-- The Order is an aggregate root, that has value object OrderLine wich contains list of cookie's id and quantities.
-- Cookie and Client are Entities.
+### API
 
-## Tests 
-- Done unit test and integration test of repositories and oderService
-- Integration test of the final API with Postman
-  - The link to the collection: https://www.getpostman.com/collections/5b3b2b71d8f08f32f835
+We think that at least we will need the following endpoints to handle the cookie orders:
 
-## Future improvements
-- Implement repositories to connect with data base.
-- Do unit test using Test double, moking dependencies
-- Refactor with lambdas in array manipulation.
-- Create object mappers.
-- Create endpoints for making CRUD of Cookies.
+- `POST /order` this will create a cookie order.
+For cookie orders, we need to know the number of cookies wanted, who wants the cookies and which type of cookies. This request should return an error if it exceeds the total budget of cookies for the month.
+- `GET /order` This will return all the orders
 
-## How to run 
-- Call the enpoint `/order`, with post and get methods.
+You can add any other endpoints that you think it's needed.
 
-## What I learned
-- Learn a litle bit of C# wich is very similar to Java.
-- How the .Net works and the Visual Studio.
+### Price
 
-# Comments
-Could have done this project with improvements in less than one day with Spring Boot.
-Spend 2.5 days on this assigments, could have done more but I have other interviews and I'm focusing on Java and Spring Boot.
+The price is listed below but they may change, we want an easy way to update the prices:
 
-# Issues
-- All the issues I had was related to C#, .Net and the VS IDE.
-- New in C#, althought is similar to Java, but it has its own things.
-- New in Visula Studio, it has its own things, like you can't edit files and folders while the app is running.
-- Testing framework xUnit asserts aren't very semantic, couldn't use .Equals, I used only the .True which dificulted me to debug errors.
-- Spend lot of time trying to connect database because i thought it would be easier than making crud with csv files.
+- 3$ for a Gingerbread Cookie
+- 3.5$ for a Chocolate Chip Cookie
+- 3.2$ for a Dinosaurus Cookie
+- 2.1$ for a Macaroon Cookie
+
+### Persistence
+
+Also, these services will need to store this data somewhere. For now, we think that a file might be a good idea. We would like to register each order received as soon as possible in the file. 
+
+### Restrictions
+
+The cookie manager won't accept any new order if the monthly cap of 200$ in orders has been reached. 
+
+### Readme
+
+- Provide a readme with any information that you think is needed or can help to understand the decisions that you took while creating the service.
+- If you had any issues when implementing this service you can also add some comments about it.
+- Also, include a way to call the API from CLI.
